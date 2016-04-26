@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+    script(src='http://code.jquery.com/jquery-1.11.3.min.js')
+    script.
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '454867548039245',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+    script(src='/javascript/fbapi.js')
+
+  body
+    block content

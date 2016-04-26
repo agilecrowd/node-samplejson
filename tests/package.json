@@ -1,0 +1,19 @@
+{
+  "name": "tests",
+  "version": "0.1.0",
+  "description": "tests for project shareto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "restapi"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "form-data": "^0.2.0",
+    "request": "^2.65.0",
+    "chance": "^0.8.0",
+    "frisby": "^0.8.5"
+  }
+}

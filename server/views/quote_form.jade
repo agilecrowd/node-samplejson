@@ -1,0 +1,103 @@
+extends layout
+
+block content
+  div(class='container')
+    form(id='shareForm', action='/api/v1/quotes',method='post')
+
+      div(data-role='fieldcontain', class='form-group')
+        fieldset(data-role='controlgroup')
+          label(for='message') Message:
+          textarea#message( name="message", value='#{json.message}', placeholder='Enter message here', rows="4", class="form-control" )
+      div(data-role='fieldcontain', class='form-group')
+        fieldset(data-role='controlgroup')
+          label(for='digest') Digest:
+          textarea#digest( name="digest", rows="4", class="form-control" )
+            | #{json.digest}
+      div(data-role='fieldcontain', class='form-group')
+        fieldset(data-type='vertical', data-role='controlgroup')
+          label(for='author') Author:
+          input(id='author',type='text',value='#{json.author}',placeholder='Enter author',name='author',class="form-control")
+      div(data-role='fieldcontain', class='form-group')
+        fieldset(data-type='vertical', data-role='controlgroup')
+          label(for='date') Date:
+          input(id='date',type='text',value='#{json.date}',placeholder='@',name='date',class="form-control")
+      div(data-role='fieldcontain', style="display: none;")
+        fieldset(data-type='vertical', data-role='controlgroup')
+          label(for='link') Link
+          input(id='link',type='text',value='#{json.link}',placeholder='@',name='link')
+      div(data-role='fieldcontain', style="display: none;")
+        fieldset(data-type='vertical', data-role='controlgroup')
+          label(for='ean') Ean
+          input(id='ean',type='text',value='#{json.ean}',placeholder='@',name='ean')
+      div(data-role='fieldcontain', class='form-group')
+        fieldset(data-type='vertical', data-role='controlgroup')
+          input(type='checkbox',id='facebook',name='facebook',data-transition='fade', data-theme='c', checked=true)
+          label(for='facebook') Facebook
+      div(data-role='fieldcontain', class='form-group')
+        fieldset(data-type='vertical', data-role='controlgroup')
+          input(type='checkbox',id='twitter',name='twitter',data-transition='fade', data-theme='c')
+          label(for='twitter') Twitter
+
+    input(id='shareButton', type='button', value='Share', onclick='submitQuote()')
+
+  script(type='text/javascript').
+    //- doesn't display web button on Andriod and iOS
+    if (window.Android || window.iOS) {
+      $('#shareButton').hide();
+    }
+
+    //- share to facebook
+    function shareToFacebook(fbmsg) {
+      console.log(fbmsg);
+      loginFacebook(function(result) {
+        console.log("--- login return: " + result);
+        if (result === "connected") {
+          window.Android.reportResult("connected to facebook");
+          feedFacebook(fbmsg);
+          window.Android.reportResult("feed to facebook");
+        } else {
+          window.Android.reportResult("result = " + result);
+        }
+      });
+    }
+    //- share to twitter
+    function shareToTwitter(data) {
+      console.log(data);
+    }
+    //- share to quote
+    function shareToQuote() {
+      $.ajax({
+        type: $('#shareForm').attr('method'),
+        url: $('#shareForm').attr('action'),
+        data: $('#shareForm').serialize(),
+        dataType: 'json',
+        success: function(json) {
+          if (window.Android)
+            return window.Android.reportResult("success to nook");
+          else if (window.iOS)
+            return window.iOS.reportResult("success to nook");
+          else
+            return window.close();
+        }
+      });
+    }
+
+    //- submit Quote form
+    function submitQuote() {
+      var shareToFacebookButton = document.getElementById('facebook');
+      if (shareToFacebookButton.checked) {
+        var text = document.getElementById("message").value + "\n" +
+                   document.getElementById("digest").value;
+        fbmsg = {
+          "message":text
+        }
+        shareToFacebook(fbmsg);
+      }
+      var shareToTwitterButton = document.getElementById('twitter');
+      if (shareToFacebookButton.checked) {
+        shareToTwitter({"author":'#{json.author}'});
+      }
+
+      shareToQuote();
+    }
+
