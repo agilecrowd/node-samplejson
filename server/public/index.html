@@ -5,9 +5,16 @@
   #editor {
       position: absolute;
       top: 120;
-      right: 0;
+      right: 800;
       bottom: 0;
       left: 0;
+  }
+  #output {
+      position: absolute;
+      top: 120;
+      right: 0;
+      bottom: 0;
+      left: 800;
   }
 </style>
 </head>
@@ -21,17 +28,29 @@
 <br/>
 <br/>
 <button style="font-size: 1.2em; margin-bottom:0; line-height: 1em;" onclick="save()">Save!</button>
+<button style="font-size: 1.2em; margin-bottom:0; line-height: 1em;" onclick="run()">Run!</button>
+<i style="font-size: 1em">You can also get the JSON with the REST API: "http://{hostname:port}/api/v1/samples/?username={username}&app_name={app_name}"</i>
 <div id="editor"></div>
+<div id="output"></div>
 
 <script src="/javascripts/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
   // Set the default size of fonts
   document.getElementById('editor').style.fontSize='14px'
+  document.getElementById('output').style.fontSize='14px'
 
   var editor = ace.edit("editor")
   editor.setTheme("ace/theme/monokai")
   editor.getSession().setMode("ace/mode/handlebars")
+  editor.$blockScrolling = Infinity
+
+  var output = ace.edit("output")
+  output.setTheme("ace/theme/monokai")
+  output.getSession().setMode("ace/mode/json")
+  output.setReadOnly(true)
+  output.getSession().setTabSize(2)
+  output.getSession().setUseSoftTabs(true)
 
   function save() {
     $.post("/samples/",
@@ -42,6 +61,17 @@
     },
     function(data, status){
         // alert("Data: " + data + "\nStatus: " + status);
+    })
+  }
+
+  function run() {
+    $.get("/api/v1/samples/",
+    {
+      username: 'hello',
+      app_name: 'world'
+    },
+    function(data, status){
+      output.setValue(JSON.stringify(data, null, '\t'))
     })
   }
 
