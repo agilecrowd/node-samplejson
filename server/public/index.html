@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+<title>ACE in Action</title>
+<style type="text/css" media="screen">
+  #editor {
+      position: absolute;
+      top: 30;
+      right: 0;
+      bottom: 0;
+      left: 0;
+  }
+</style>
+</head>
+<body>
+
+<button onclick="save()">Save!</button>
+<div id="editor"></div>
+
+<script src="/javascripts/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  // Set the default size of fonts
+  document.getElementById('editor').style.fontSize='14px'
+
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/handlebars");
+
+  function save() {
+    $.post("/samples/",
+    {
+      content: editor.getValue(),
+      username: 'rlee',
+      app_name: 'hello'
+    },
+    function(data, status){
+        // alert("Data: " + data + "\nStatus: " + status);
+    })
+  }
+
+  $(document).ready(function() {
+    $.get('/samples/',
+    {
+      username: 'rli',
+      app_name: 'hello'
+    },
+    function(data, status){
+        // alert("Data: " + data + "\nStatus: " + status)
+        editor.setValue(data)
+    })
+  })
+</script>
+</body>
+</html>

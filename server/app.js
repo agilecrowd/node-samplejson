@@ -19,6 +19,7 @@ db.once('open', function callback () {
 var routes = require('./routes/index');
 var users  = require('./routes/users');
 var quotes = require('./routes/quotes');
+var samples = require('./routes/sample')
 var api_quotes = require('./app/apis/quote');
 var api_likes = require('./app/apis/like');
 var api_shares = require('./app/apis/share')
@@ -32,7 +33,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/quotes', quotes);
+app.use('/samples', samples)
 app.use('/api/v1/quotes', api_quotes);
 app.use('/api/v1/likes', api_likes);
 app.use('/api/v1/shares', api_shares)

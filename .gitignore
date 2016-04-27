@@ -36,3 +36,4 @@ backend/state.json
 backend/state-update.json
 .file.state
 conf/expired.txt
+uploads/
