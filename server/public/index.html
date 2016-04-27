@@ -1,10 +1,10 @@
 <html lang="en">
 <head>
-<title>ACE in Action</title>
+<title>SampleJSON</title>
 <style type="text/css" media="screen">
   #editor {
       position: absolute;
-      top: 30;
+      top: 120;
       right: 0;
       bottom: 0;
       left: 0;
@@ -13,7 +13,14 @@
 </head>
 <body>
 
-<button onclick="save()">Save!</button>
+<h1 style="color: #c0c0c0; font-size: 2em; margin-bottom:0; line-height: 1em;">
+  <span style="color: #f49040;">SampleJSON.io</span>
+  <span style="font-size: 0.8em">Online Schema Editor & REST api support</span>
+</h1>
+<i style="font-size: 0.88em">"Edit your schema online, call your REST api instantly. Simple, light and fast!"</i>
+<br/>
+<br/>
+<button style="font-size: 1.2em; margin-bottom:0; line-height: 1em;" onclick="save()">Save!</button>
 <div id="editor"></div>
 
 <script src="/javascripts/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -22,9 +29,9 @@
   // Set the default size of fonts
   document.getElementById('editor').style.fontSize='14px'
 
-  var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/monokai");
-  editor.getSession().setMode("ace/mode/handlebars");
+  var editor = ace.edit("editor")
+  editor.setTheme("ace/theme/monokai")
+  editor.getSession().setMode("ace/mode/handlebars")
 
   function save() {
     $.post("/samples/",
