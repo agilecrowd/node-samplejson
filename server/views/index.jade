@@ -1,35 +1,10 @@
 extends layout
 
 block content
-  script(type='text/javascript').
-    $("form").submit(function() {
-      $.post($(this).attr('action'), $(this).serializeArray());
-      window.close();
-    });
-    function closeSelf (f) {
-       f.submit();
-       // TODO: window can't be closed, maybe will try here:
-       //- http://stackoverflow.com/questions/30369009/close-opened-pop-up-window-on-form-submission-and-trigger-click-on-the-parent-wi
-       //- https://github.com/mashery/iodocs/blob/master/views/authSuccess.jade
-       window.close();
-    }
-
-  h1= json.pageUrl
-  p #{json.selectionText}
-
-  div
-    form(action='/quotes',method='post',onsubmit="return closeSelf(this);")
-      div(data-role='fieldcontain')
-        fieldset(data-role='controlgroup')
-          label(for='digest') Digest
-          input(id='digest',type='text',value='#{json.selectionText}',placeholder='@',name='digest')
-      div(data-role='fieldcontain')
-        fieldset(data-type='vertical', data-role='controlgroup')
-          label(for='author') Author
-          input(id='author',type='text',value='Hilton',placeholder='@',name='author')
-      div(data-role='fieldcontain')
-        fieldset(data-type='vertical', data-role='controlgroup')
-          label(for='date') Date
-          input(id='date',type='text',value='10/12/2015',placeholder='@',name='date')
-      div(data-role='fieldcontain')
-        input(type='submit',value='POST',data-transition='fade', data-theme='c')
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/logout") Logout
