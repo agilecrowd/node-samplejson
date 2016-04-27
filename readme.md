@@ -11,6 +11,14 @@ Simulated login/logout, upload images, avatar list, profiles update, etc.
 
 http://{hostname}/{account_name}/{api_name}.json    
 http://{hostname}/public/default.json
+Such as:
+http://{hostname}/public/china_cities.json
+
+#### Verify @ local
+WebUI:
+http://localhost:3030
+API:
+http://localhost:3030/api/v1/samples/?username=hello&app_name=world
 
 #### References:
 https://github.com/chancejs/chancejs    

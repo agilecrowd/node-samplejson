@@ -30,8 +30,8 @@
     $.post("/samples/",
     {
       content: editor.getValue(),
-      username: 'rlee',
-      app_name: 'hello'
+      username: 'hello',
+      app_name: 'world'
     },
     function(data, status){
         // alert("Data: " + data + "\nStatus: " + status);
@@ -41,8 +41,8 @@
   $(document).ready(function() {
     $.get('/samples/',
     {
-      username: 'rli',
-      app_name: 'hello'
+      username: 'hello',
+      app_name: 'world'
     },
     function(data, status){
         // alert("Data: " + data + "\nStatus: " + status)
