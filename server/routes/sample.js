@@ -2,47 +2,55 @@ var express = require('express')
 var router = express.Router()
 
 var fs = require('fs')
-var path = require('path')
-var mkdirp = require('mkdirp')
 var config = require('../config.json')
+
+var Application = require('../app/models/application')
 
 /* GET / - load a schema/template */
 router.get('/', function(req, res, next) {
   // console.log(req.query)
+  var user = req.query.user
 
-  // Reference: http://code.tutsplus.com/tutorials/creating-an-api-centric-web-application--net-23417
-  // get the username/password hash
-  // $userhash = sha1("{$username}_{$userpass}");
-  // if( is_dir(DATA_PATH."/{$userhash}") === false ) {
-  //     mkdir(DATA_PATH."/{$userhash}");
-  // }
-  // Reference end
-
-  var dir = path.join(config.base_dir, req.query.username)
-  var filename = req.query.app_name + ".hbr"
-  var fullpath = path.join(dir, filename)
-
-  fs.exists(fullpath, (exists) => {
-    if (!exists) fullpath = config.default_schema
-    fs.readFile(fullpath, {encoding: 'utf8'}, (err, data) => {
-      if (err) throw err;
-      res.send(data)
+  if (req.query.user) {
+    // if the user is login, return the latest template/schema
+    Application.findOne({user_id: user._id}, function(err, application) {
+      if (err) return next(err)
+      res.json(application)
     })
+  }
+  // otherwise, reutrn the default template/schema
+  fs.readFile(config.default_schema, {encoding: 'utf8'}, (err, data) => {
+    if (err) return next(err)
+    res.json({template: data, name: "DefaultApp"})
   })
+
 })
 
 /* POST / - save a new change of schema/template */
 router.post('/', function(req, res, next) {
   // console.log(req.body)
-  var dir = path.join(config.base_dir, req.body.username)
-  var filename = req.body.app_name + ".hbr"
+  var application = new Application(req.body)
 
-  mkdirp(dir, function (err) {
-    if (err) throw(err)
-    fs.writeFile(path.join(dir, filename), req.body.content, function(err) {
-      if (err) throw(err)
-      res.send(req.body.content)
-    })
+  // create secure for new application
+  application.secure = "12344"
+
+  // save a new application to database
+  application.save(function(err) {
+    if (err) return next(err)
+    res.json({status: 'ok', application})
+  })
+})
+
+/* PUT / - modify a change of schema/template */
+router.put('/', function(req, res, next) {
+  console.log(req.body)
+
+  var application = new Application(req.body)
+  var update = {'updated_at': new Date(), name: application.name, template: application.template}
+  var options = {new: true}
+  Application.findByIdAndUpdate(req.body.app_id, update, options, function (err, application) {
+    if (err) return next(err)
+    res.json({status: 'ok', application})
   })
 })
 

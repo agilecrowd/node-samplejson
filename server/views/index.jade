@@ -44,11 +44,14 @@ block content
       output.setReadOnly(true)
       output.getSession().setTabSize(2)
       output.getSession().setUseSoftTabs(true)
+      output.$blockScrolling = Infinity
+
+      var user=!{JSON.stringify(user)}
 
       function new_app() {
         // Prompt to input new app name
         var app_name = prompt("Please enter the app name", "HelloWorld")
-        var user=!{JSON.stringify(user)}
+        //var user=!{JSON.stringify(user)}
 
         if (app_name != null) {
           $.post("/api/v1/apps/",
@@ -67,34 +70,55 @@ block content
         }
       }
       function save() {
-        $.post("/samples/",
-        {
-          content: editor.getValue(),
-          username: 'hello',
-          app_name: 'world'
-        },
-        function(data, status){
-          // alert("Data: " + data + "\\nStatus: " + status);
-        })
+        if (user.app_id) {
+          // Update the existing template
+          $.ajax({
+            url: "/samples/",
+            type: 'PUT',
+            data: {
+              template: editor.getValue(),
+              name: $("#app_name").val(),
+              app_id: user.app_id,
+              user_id: user._id
+            },
+            dataType: 'json',
+            success: function(data, status){
+              // alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
+            }
+          })
+        } else {
+          // Save a new template
+          $.post("/samples/",
+          {
+            template: editor.getValue(),
+            name: $("#app_name").val(),
+            user_id: user._id
+          },
+          function(data, status){
+            // alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
+            if (status === 'success' && data.status === 'ok') { user.app_id = data.application._id }
+          })
+        }
       }
       function run() {
-        $.get("/api/v1/samples/",
-        {
-          username: 'hello',
-          app_name: 'world'
-        },
-        function(data, status){
-          output.setValue(JSON.stringify(data, null, '  '))
-        })
+        if (user.app_id) {
+          $.get("/api/v1/samples/",
+          {
+            app_id: user.app_id
+          },
+          function(data, status){
+            output.setValue(JSON.stringify(data, null, '  '))
+          })
+        } else {
+          alert("Please 'Save' your schema at first!")
+        }
       }
       $(document).ready(function() {
-        $.get('/samples/',
-        {
-          username: 'hello',
-          app_name: 'world'
-        },
-        function(data, status){
-          // alert("Data: " + data + "\\nStatus: " + status)
-          editor.setValue(data)
+        //var user=!{JSON.stringify(user)}
+
+        $.get('/samples/', user, function(data, status){
+          // alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
+          editor.setValue(data.template)
+          $("#app_name").val(data.name)
         })
       })
