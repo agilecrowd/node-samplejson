@@ -2,10 +2,10 @@
 
 Provide some random JSON data, such as JSON array, or JSON object with a configured schema.
 
-Including some specific sized images, numbers, years, etc.
+Including some specific sized images, numbers, years, sin/cos, etc.
 
 #### Advanced step:
-Simulated login/logout, upload images, avatar list, profiles update, etc.
+Simulated login/logout, upload images, avatar list, profiles update, smart talk, timer to push, etc.
 
 #### Interface
 
