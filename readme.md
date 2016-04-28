@@ -6,10 +6,11 @@ Including some specific sized images, numbers, years, sin/cos, etc.
 
 #### Advanced step:
 Simulated login/logout, upload images, avatar list, profiles update, smart talk, timer to push, etc.
+How about sensor data!? continuously provide temperature data, camera video, audio data, atmosphere data, etc.
 
 #### Interface
 
-http://{hostname}/{account_name}/{api_name}.json    
+http://{hostname}/{account_name}/{api_name}.json
 http://{hostname}/public/default.json
 Such as:
 http://{hostname}/public/china_cities.json

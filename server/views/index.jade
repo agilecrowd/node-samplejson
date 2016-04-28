@@ -6,5 +6,95 @@ block content
     br
     a(href="/register") Register
   if (user)
-    p You are currently logged in as #{user.username}
+    p Welcome #{user.username}!
     a(href="/logout") Logout
+
+    h1(style='color: #c0c0c0; font-size: 2em; margin-bottom:0; line-height: 1em;')
+      span(style='color: #f49040;') SampleJSON.io
+      span(style='font-size: 0.8em') Online Schema Editor & REST api support
+    i(style='font-size: 0.88em') "Edit your schema online, call your REST api instantly. Simple, light and fast!"
+    br
+    br
+    button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='new_app()') New App!
+    button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='save()') Save!
+    button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='run()') Run!
+    i(style='font-size: 1em')
+      | You can also get the JSON with the REST API: "http://{hostname:port}/api/v1/samples/?username={username}&app_name={app_name}"
+    button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='del_app()') Remove App!
+    br
+    br
+    p
+      | Application Name:
+      input#app_name(type='text', value='')
+    #editor
+    #output
+    script.
+      // Set the default size of fonts
+      document.getElementById('editor').style.fontSize='14px'
+      document.getElementById('output').style.fontSize='14px'
+
+      var editor = ace.edit("editor")
+      editor.setTheme("ace/theme/monokai")
+      editor.getSession().setMode("ace/mode/handlebars")
+      editor.$blockScrolling = Infinity
+
+      var output = ace.edit("output")
+      output.setTheme("ace/theme/monokai")
+      output.getSession().setMode("ace/mode/json")
+      output.setReadOnly(true)
+      output.getSession().setTabSize(2)
+      output.getSession().setUseSoftTabs(true)
+
+      function new_app() {
+        // Prompt to input new app name
+        var app_name = prompt("Please enter the app name", "HelloWorld")
+        var user=!{JSON.stringify(user)}
+
+        if (app_name != null) {
+          $.post("/api/v1/apps/",
+          {
+            app_name: app_name,
+            user_id : user._id
+          },
+          function(data, status){
+            /*
+             * data = {id/app_id, secure/app_key, app_name, schema/empty}
+             */
+            $("#app_name").val(data.name)
+            editor.setValue('')
+            //alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
+          })
+        }
+      }
+      function save() {
+        $.post("/samples/",
+        {
+          content: editor.getValue(),
+          username: 'hello',
+          app_name: 'world'
+        },
+        function(data, status){
+          // alert("Data: " + data + "\\nStatus: " + status);
+        })
+      }
+      function run() {
+        $.get("/api/v1/samples/",
+        {
+          username: 'hello',
+          app_name: 'world'
+        },
+        function(data, status){
+          output.setValue(JSON.stringify(data, null, '  '))
+        })
+      }
+      $(document).ready(function() {
+        $.get('/samples/',
+        {
+          username: 'hello',
+          app_name: 'world'
+        },
+        function(data, status){
+          // alert("Data: " + data + "\\nStatus: " + status)
+          editor.setValue(data)
+        })
+      })

@@ -9,6 +9,15 @@ var config = require('../config.json')
 /* GET / - load a schema/template */
 router.get('/', function(req, res, next) {
   // console.log(req.query)
+
+  // Reference: http://code.tutsplus.com/tutorials/creating-an-api-centric-web-application--net-23417
+  // get the username/password hash
+  // $userhash = sha1("{$username}_{$userpass}");
+  // if( is_dir(DATA_PATH."/{$userhash}") === false ) {
+  //     mkdir(DATA_PATH."/{$userhash}");
+  // }
+  // Reference end
+
   var dir = path.join(config.base_dir, req.query.username)
   var filename = req.query.app_name + ".hbr"
   var fullpath = path.join(dir, filename)

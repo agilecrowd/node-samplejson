@@ -29,6 +29,7 @@ var api_quotes = require('./app/apis/quote');
 var api_likes = require('./app/apis/like');
 var api_shares = require('./app/apis/share')
 var api_samples = require('./app/apis/sample')
+var api_apps = require('./app/apis/application')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,6 +63,7 @@ app.use('/api/v1/quotes', api_quotes);
 app.use('/api/v1/likes', api_likes);
 app.use('/api/v1/shares', api_shares)
 app.use('/api/v1/samples', api_samples)
+app.use('/api/v1/apps', api_apps)
 
 // passport config
 var Account = require('./app/models/account');

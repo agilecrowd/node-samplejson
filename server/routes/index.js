@@ -5,18 +5,8 @@ var Account = require('../app/models/account')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // var json;
-  // if (req.query.json) {
-  //   json = JSON.parse(req.query.json);
-  // }
-  // TOOD: Parse meta tag to get more metadata from the link
-  // if (json.link) {
-  //   var meta = metatag(json.link);
-  //   json = merge(json, meta);
-  // }
-
-  // console.log(json);
-  res.render('index', { user: req.user });
+  console.log(req.user)
+  res.render('index', { user: req.user })
 })
 
 router.get('/register', function(req, res) {
@@ -41,6 +31,7 @@ router.post('/register', function(req, res) {
 })
 
 router.get('/login', function(req, res) {
+  console.log(req.user)
   res.render('login', { user : req.user });
 })
 
@@ -49,6 +40,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
 })
 
 router.get('/logout', function(req, res) {
+  console.log(req.user)
   req.logout()
   res.redirect('/')
 })
