@@ -4,10 +4,32 @@ block content
   .container
     h1.fa.fa-sign-in Profile Page
     p.lead= user.username
+    a(href="/logout") Logout
+    br
     br
     each app in apps
-      .row
+      .row(id="#{app._id}")
         .twelve.columns
           .panel
             li
               a(href='/?app_id=#{app._id}')= app.name
+              p= app._id
+              button(onclick='del("#{app._id}", "#{app.name}")') Remove App!
+  script.
+    function del(app_id, app_name) {
+      // Update the existing template
+      $.ajax({
+        url: "/samples/",
+        type: 'DELETE',
+        data: {
+          app_id: app_id
+        },
+        dataType: 'json',
+        success: function(data, status){
+          //alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
+          if (confirm("Confirm to delete app: " + app_name)) {
+            $(".row#"+app_id).remove()
+          }
+        }
+      })
+    }

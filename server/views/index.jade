@@ -8,7 +8,6 @@ block content
   if (user)
     p Welcome #{user.username}!
     a(href="/profile") Profile
-    a(href="/logout") Logout
 
     h1(style='color: #c0c0c0; font-size: 2em; margin-bottom:0; line-height: 1em;')
       span(style='color: #f49040;') SampleJSON.io
@@ -21,7 +20,6 @@ block content
     button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='run()') Run!
     i(style='font-size: 1em')
       | You can also get the JSON with the REST API: "http://{hostname:port}/api/v1/samples/?app_id={app_id}"
-    button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='del_app()') Remove App!
     br
     br
     p

@@ -62,4 +62,13 @@ router.put('/', function(req, res, next) {
   })
 })
 
+/* DELETE / - delete a set of app */
+router.delete('/', function(req, res, next) {
+  // console.log(req.body)
+  Application.remove({ _id: req.body.app_id }, function (err, result) {
+    if (err) return next(err)
+    res.json(result)
+  })
+})
+
 module.exports = router
