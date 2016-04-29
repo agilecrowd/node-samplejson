@@ -31,9 +31,6 @@ router.post('/', function(req, res, next) {
   // console.log(req.body)
   var application = new Application(req.body)
 
-  // create secure for new application
-  application.secure = "12344"
-
   // save a new application to database
   application.save(function(err) {
     if (err) return next(err)

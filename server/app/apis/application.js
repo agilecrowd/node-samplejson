@@ -6,7 +6,7 @@ var Application = require('../models/application')
 router.post('/', function(req, res, next) {
   // console.log(req.body)
 
-  var application = new Application({name: req.body.app_name, secure: "12345678", user_id: req.body.user_id})
+  var application = new Application({name: req.body.app_name, app_key: "12345678", user_id: req.body.user_id})
   // console.log(application)
 
   // save a new application to database

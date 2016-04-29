@@ -19,7 +19,7 @@ block content
     button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='save()') Save!
     button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='run()') Run!
     i(style='font-size: 1em')
-      | You can also get the JSON with the REST API: "http://{hostname:port}/api/v1/samples/?username={username}&app_name={app_name}"
+      | You can also get the JSON with the REST API: "http://{hostname:port}/api/v1/samples/?app_id={app_id}"
     button(style='font-size: 1.2em; margin-bottom:0; line-height: 1em;', onclick='del_app()') Remove App!
     br
     br
@@ -46,7 +46,7 @@ block content
         exec: function(editor) {
           save()
         }
-      });
+      })
 
       var output = ace.edit("output")
       output.setTheme("ace/theme/monokai")
@@ -80,13 +80,16 @@ block content
         }
       }
       function save() {
+        var plain_text = editor.getValue()
+        // TODO: secure the plain text with app_key
+
         if (user.app_id) {
           // Update the existing template
           $.ajax({
             url: "/samples/",
             type: 'PUT',
             data: {
-              template: editor.getValue(),
+              template: plain_text,
               name: $("#app_name").val(),
               app_id: user.app_id,
               user_id: user._id
@@ -100,7 +103,7 @@ block content
           // Save a new template
           $.post("/samples/",
           {
-            template: editor.getValue(),
+            template: plain_text,
             name: $("#app_name").val(),
             user_id: user._id
           },

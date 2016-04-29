@@ -10,7 +10,7 @@ var Application = require('../models/application')
 
 /* GET / - get a new sample according to the schema/template */
 router.get('/', function(req, res, next) {
-  console.log(req.query)
+  // console.log(req.query)
   var app_id = req.query.app_id
 
   if (app_id) {
