@@ -36,7 +36,17 @@ block content
       var editor = ace.edit("editor")
       editor.setTheme("ace/theme/monokai")
       editor.getSession().setMode("ace/mode/handlebars")
+      editor.getSession().setTabSize(2)
+      editor.getSession().setUseSoftTabs(true)
       editor.$blockScrolling = Infinity
+
+      editor.commands.addCommand({
+        name: 'Save',
+        bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+        exec: function(editor) {
+          save()
+        }
+      });
 
       var output = ace.edit("output")
       output.setTheme("ace/theme/monokai")
@@ -51,7 +61,6 @@ block content
       function new_app() {
         // Prompt to input new app name
         var app_name = prompt("Please enter the app name", "HelloWorld")
-        //var user=!{JSON.stringify(user)}
 
         if (app_name != null) {
           $.post("/api/v1/apps/",
@@ -63,8 +72,9 @@ block content
             /*
              * data = {id/app_id, secure/app_key, app_name, schema/empty}
              */
-            $("#app_name").val(data.name)
+            $("#app_name").val(data.application.name)
             editor.setValue('')
+            user.app_id = data.application._id
             //alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
           })
         }
@@ -114,8 +124,6 @@ block content
         }
       }
       $(document).ready(function() {
-        //var user=!{JSON.stringify(user)}
-
         $.get('/samples/', user, function(data, status){
           // alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
           editor.setValue(data.template)

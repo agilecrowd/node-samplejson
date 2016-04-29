@@ -43,7 +43,7 @@ router.post('/', function(req, res, next) {
 
 /* PUT / - modify a change of schema/template */
 router.put('/', function(req, res, next) {
-  console.log(req.body)
+  // console.log(req.body)
 
   var application = new Application(req.body)
   var update = {'updated_at': new Date(), name: application.name, template: application.template}
