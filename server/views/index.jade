@@ -7,6 +7,7 @@ block content
     a(href="/register") Register
   if (user)
     p Welcome #{user.username}!
+    a(href="/profile") Profile
     a(href="/logout") Logout
 
     h1(style='color: #c0c0c0; font-size: 2em; margin-bottom:0; line-height: 1em;')
@@ -57,6 +58,7 @@ block content
       output.$blockScrolling = Infinity
 
       var user=!{JSON.stringify(user)}
+      var app_id = "#{app_id}"
 
       function new_app() {
         // Prompt to input new app name
@@ -127,7 +129,12 @@ block content
         }
       }
       $(document).ready(function() {
-        $.get('/samples/', user, function(data, status){
+        var info = user
+        if (typeof app_id !== "undefined") {
+          $.extend( info, {app_id: app_id} )
+        }
+        //alert("Info: " + JSON.stringify(info))
+        $.get('/samples/', info, function(data, status){
           // alert("Data: " + JSON.stringify(data) + "\nStatus: " + status)
           editor.setValue(data.template)
           $("#app_name").val(data.name)

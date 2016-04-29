@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .container
+    h1.fa.fa-sign-in Profile Page
+    p.lead= user.username
+    br
+    each app in apps
+      .row
+        .twelve.columns
+          .panel
+            li
+              a(href='/?app_id=#{app._id}')= app.name

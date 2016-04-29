@@ -9,21 +9,30 @@ var Application = require('../app/models/application')
 /* GET / - load a schema/template */
 router.get('/', function(req, res, next) {
   // console.log(req.query)
-  var user = req.query.user
+  var info = req.query
 
-  if (req.query.user) {
-    // if the user is login, return the latest template/schema
-    Application.findOne({user_id: user._id}, function(err, application) {
+  if (info) {
+    if (info.app_id) {
+      // if the user is login AND specify the app_id, return the specified template/schema
+      Application.findOne({user_id: info._id, _id: info.app_id}, function(err, application) {
+        if (err) return next(err)
+        res.json(application)
+      })
+    } else {
+      // if the user is login, return the latest template/schema
+      Application.findOne({user_id: info._id}, function(err, application) {
+        if (err) return next(err)
+        // console.log(application)
+        res.json(application)
+      })
+    }
+  } else {
+    // otherwise, reutrn the default template/schema
+    fs.readFile(config.default_schema, {encoding: 'utf8'}, (err, data) => {
       if (err) return next(err)
-      res.json(application)
+      res.json({template: data, name: "DefaultApp"})
     })
   }
-  // otherwise, reutrn the default template/schema
-  fs.readFile(config.default_schema, {encoding: 'utf8'}, (err, data) => {
-    if (err) return next(err)
-    res.json({template: data, name: "DefaultApp"})
-  })
-
 })
 
 /* POST / - save a new change of schema/template */

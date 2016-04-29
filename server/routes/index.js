@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport')
 var Account = require('../app/models/account')
+var Application = require('../app/models/application')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.user)
-  res.render('index', { user: req.user })
+  // console.log(req.user)
+  // console.log(req.query)
+
+  res.render('index', { user: req.user, app_id: req.query.app_id })
 })
 
 router.get('/register', function(req, res) {
@@ -25,14 +28,14 @@ router.post('/register', function(req, res) {
           return next(err);
         }
         res.redirect('/');
-      });
-    });
-  });
+      })
+    })
+  })
 })
 
 router.get('/login', function(req, res) {
-  console.log(req.user)
-  res.render('login', { user : req.user });
+  // console.log(req.user)
+  res.render('login', { user : req.user })
 })
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
@@ -40,13 +43,16 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
 })
 
 router.get('/logout', function(req, res) {
-  console.log(req.user)
+  // console.log(req.user)
   req.logout()
   res.redirect('/')
 })
 
-router.get('/ping', function(req, res){
-    res.status(200).send("pong!")
+router.get('/profile', function(req, res){
+  Application.find({user_id: req.user._id}, function(err, apps) {
+    if (err) return next(err)
+    res.render('profile', { user : req.user, apps: apps })
+  })
 })
 
-module.exports = router;
+module.exports = router
