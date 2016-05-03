@@ -24,6 +24,9 @@ http://localhost:3030
 API:
 http://localhost:3030/api/v1/samples/?app_id=5722f73648dbd401838ab4f9
 
+#### License:
+MIT
+
 #### References:
 https://github.com/chancejs/chancejs    
 https://github.com/webroo/dummy-json
@@ -38,5 +41,12 @@ https://ace.c9.io/build/kitchen-sink.html
 
 #### Credits:
 
-#### License:
-MIT
+Total number of files: 56
+Total number of lines: 1,851
+Total number of commits: 17
++---------+-------+---------+-------+----------------------+
+| name    | loc   | commits | files | distribution         |
++---------+-------+---------+-------+----------------------+
+| Fuzu Li | 1,851 | 17      | 50    | 100.0 / 100.0 / 89.3 |
++---------+-------+---------+-------+----------------------+
+
