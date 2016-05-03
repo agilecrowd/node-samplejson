@@ -1,20 +1,22 @@
 ### SampleJSON
 
-Provide some random JSON data, such as JSON array, or JSON object with a configured schema.
+#### Idea:
+[Story](docs/idea/Story.md)
 
-Including some specific sized images, numbers, years, sin/cos, etc.
+#### Prototypes:
+[Prototype Home/Guest](docs/design/Prototype_Home_Guest.png)
+[Prototype Home/Logged in](docs/design/Prototype_Home_Logged_In.png)
+[Prototype Home/Settings/Applications](docs/design/Prototype_Settings_Applications.png)
+[Prototype Home/Signin and Signup](docs/design/Prototype_Signin_and_Signup.png)
 
-#### Advanced step:
-Simulated login/logout, upload images, avatar list, profiles update, smart talk, timer to push, etc.
-How about sensor data!? continuously provide temperature data, camera video, audio data, atmosphere data, etc.
-Public REST API aggregator, for example, forecast for weather JSON REST APIs, News JSON, etc.
+#### Interface:
+[Interface](docs/design/Interface.md)
 
-#### Interface
-
-http://{hostname}/?app_id={app_id}    
-Some public APIs:    
-http://{hostname}/?type=public&app_id={app_id}    
-Such as for cities information
+#### Instruction for build:
+1. Install npm/node;
+2. Install MongoDB, and run `mongod`;
+3. Enter to samplejson/server: `cd server`;
+4. Run the command: `node bin/www`.
 
 #### Verify @ local
 WebUI:
@@ -33,3 +35,8 @@ http://blog.danibram.es/project/mocker-data-generator/
 http://www.json-generator.com/    
 https://ace.c9.io    
 https://ace.c9.io/build/kitchen-sink.html
+
+#### Credits:
+
+#### License:
+MIT
