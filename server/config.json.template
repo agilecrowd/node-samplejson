@@ -1,0 +1,20 @@
+{
+  "port": 3000,
+  "mongodsn": "mongodb://localhost/quotes",
+
+  "base_url": "http://localhost:3030",
+  "base_dir": "./uploads/schemas",
+  "default_schema": "./schemas/default.hbr",
+  "aws": {
+    "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
+    "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  },
+  "s3": {
+    "bucket": "samplejson-uploads"
+  },
+  "rethinkdb": {
+    "host": "localhost",
+    "port": 28015,
+    "db": "samplejson"
+  }
+}

@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js')
+  script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.runtime.min.js')
+
+  script.
+    function uploadFiles() {
+      var req = new XMLHttpRequest();
+
+      req.onload = function() {
+        console.log(JSON.parse(req.response).images);
+        document.getElementById("progress").value = 0
+      };
+
+      req.upload.onprogress = function(ev) {
+        document.getElementById("progress").value =
+          (ev.loaded / ev.total) * 100;
+      };
+
+      req.open("POST", "/api/v1/uploads", true);
+      req.send(new FormData(document.getElementById("upload")));
+    }
+
+  #dropsite
+    h1#instruction Drop files here
+    form#upload(action='/api/v1/uploads', method='POST', enctype='multipart/form-data')
+      input#fileselect(type='file', name='images', multiple='multiple')
+    progress#progress(max='100', value='0')
+  button#submit(onclick='uploadFiles()') Upload
+
+  script#template(type='text/x-handlebars-template').
+    <div class="thumb">
+    <a href="{{url}}"><img src="/thumb/{{id}}"></a>
+    </div>
+
+  script.
+    var dropsite = document.getElementById("dropsite");
+
+    dropsite.ondragover = function() { return false; };
+    dropsite.ondragend = function() { return false; };
+
+    dropsite.ondrop = function(ev) {
+      ev.stopPropagation(); ev.preventDefault();
+      document.getElementById("fileselect").files = ev.dataTransfer.files;
+      return false;
+    }
+
+    var template = Handlebars.compile(document.getElementById("template").innerHTML);
+
+    function addImages(items) {
+      for (var i in items)
+        document.getElementById("thumbs").innerHTML += template(items[i]);
+    }
