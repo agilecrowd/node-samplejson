@@ -4,10 +4,10 @@
 [Story](docs/idea/Story.md)
 
 #### Prototypes:
-[Prototype Home/Guest](docs/design/Prototype_Home_Guest.png)
-[Prototype Home/Logged in](docs/design/Prototype_Home_Logged_In.png)
-[Prototype Home/Settings/Applications](docs/design/Prototype_Settings_Applications.png)
-[Prototype Home/Signin and Signup](docs/design/Prototype_Signin_and_Signup.png)
+![Prototype Home/Guest](docs/design/Prototype_Home_Guest.png "Prototype Home/Guest")
+![Prototype Home/Logged in](docs/design/Prototype_Home_Logged_In.png "Prototype Home/Logged in")
+![Prototype Home/Settings/Applications](docs/design/Prototype_Settings_Applications.png "Prototype Home/Settings/Applications")
+![Prototype Home/Signin and Signup](docs/design/Prototype_Signin_and_Signup.png "Prototype Home/Signin and Signup")
 
 #### Interface:
 [Interface](docs/design/Interface.md)
@@ -38,15 +38,3 @@ http://blog.danibram.es/project/mocker-data-generator/
 http://www.json-generator.com/    
 https://ace.c9.io    
 https://ace.c9.io/build/kitchen-sink.html
-
-#### Credits:
-
-Total number of files: 56
-Total number of lines: 1,851
-Total number of commits: 17
-+---------+-------+---------+-------+----------------------+
-| name    | loc   | commits | files | distribution         |
-+---------+-------+---------+-------+----------------------+
-| Fuzu Li | 1,851 | 17      | 50    | 100.0 / 100.0 / 89.3 |
-+---------+-------+---------+-------+----------------------+
-
