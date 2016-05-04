@@ -5,17 +5,23 @@ block content
   script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.runtime.min.js')
 
   script.
+    function updateProgress(value) {
+      document.getElementById("progress").value = value;
+      document.getElementById("instruction").innerHTML =
+        value == 0 ? "Drop files here" :
+        value > 99 ? "Processing..." : "Uploading...";
+    }
+
     function uploadFiles() {
       var req = new XMLHttpRequest();
 
       req.onload = function() {
-        console.log(JSON.parse(req.response).images);
-        document.getElementById("progress").value = 0
+        addImages(JSON.parse(req.response).images);
+        updateProgress(0);
       };
 
       req.upload.onprogress = function(ev) {
-        document.getElementById("progress").value =
-          (ev.loaded / ev.total) * 100;
+        updateProgress((ev.loaded / ev.total) * 100);
       };
 
       req.open("POST", "/api/v1/uploads", true);
@@ -29,9 +35,10 @@ block content
     progress#progress(max='100', value='0')
   button#submit(onclick='uploadFiles()') Upload
 
+  #thumbs
   script#template(type='text/x-handlebars-template').
     <div class="thumb">
-    <a href="{{url}}"><img src="/thumb/{{id}}"></a>
+    <a href="{{url}}"><img src="/api/v1/uploads/thumb/{{id}}"></a>
     </div>
 
   script.

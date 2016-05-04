@@ -14,7 +14,7 @@ aws.config.update(config.aws);
 var s3 = bluebird.promisifyAll(new aws.S3());
 
 router.get("/thumb/:id", function(req, res) {
-  r.connect(config.db).then(function(conn) {
+  r.connect(config.rethinkdb).then(function(conn) {
     return r.table("graphics").get(req.params.id).run(conn)
       .finally(function() { conn.close(); });
   })
@@ -35,6 +35,7 @@ var resizeImg = bluebird.promisify(function(input, size, cb) {
 router.post('/', function(req, res, next) {
 
   new multiparty.Form().parse(req, function(err, fields, files) {
+    // console.log(files)
     if (!files.images)
       return res.status(400).json({success: false, err: "No files found"});
 
@@ -71,10 +72,6 @@ router.post('/', function(req, res, next) {
       console.log("Failed to upload:", e);
       res.status(400).json({success: false, err: e});
     });
-
-    // files.images.forEach(function(file) {
-    //   console.log(file.path, file.originalFilename);
-    // });
   });
 })
 

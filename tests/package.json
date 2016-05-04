@@ -11,9 +11,10 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "form-data": "^0.2.0",
-    "request": "^2.65.0",
     "chance": "^0.8.0",
-    "frisby": "^0.8.5"
+    "form-data": "^0.2.0",
+    "frisby": "^0.8.5",
+    "request": "^2.65.0",
+    "superagent": "^1.8.3"
   }
 }
