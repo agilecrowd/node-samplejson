@@ -32,6 +32,9 @@ var api_shares = require('./app/apis/share')
 var api_samples = require('./app/apis/sample')
 var api_apps = require('./app/apis/application')
 var api_uploads = require('./app/apis/upload')
+var api_comments = require('./app/apis/comment')
+var api_materials = require('./app/apis/material')
+var api_answers = require('./app/apis/answer')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -68,6 +71,9 @@ app.use('/api/v1/shares', api_shares)
 app.use('/api/v1/samples', api_samples)
 app.use('/api/v1/apps', api_apps)
 app.use('/api/v1/uploads', api_uploads)
+app.use('/api/v1/comments', api_comments)
+app.use('/api/v1/materials', api_materials)
+app.use('/api/v1/answers', api_answers)
 
 // passport config
 var Account = require('./app/models/account');
