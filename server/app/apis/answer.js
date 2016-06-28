@@ -54,7 +54,7 @@ router.post('/', function(req, res, next) {
         })
       .then(function(output) {
         console.log("Completed upload:", output);
-        res.json({success: true, audios: output});
+        res.status(200).json({success: true, body: result});
       })
       .error(function(e) {
         console.log("Failed to upload:", e);
@@ -71,7 +71,7 @@ router.post('/', function(req, res, next) {
           }
         ]).run(conn, function(err, result) {
           if (err) throw err;
-          res.send(result);
+          res.status(200).json({success: true, body: result});
         }).finally(function() { conn.close(); });
       })
     }
